@@ -1,0 +1,95 @@
+
+@x:75px;	//定义1rem的值(即总宽度/10)
+
+
+.width(@px){
+	width:unit(@px/@x,rem);
+}
+.height(@px){
+	height:unit(@px/@x,rem);
+	
+}
+.line-height(@px){
+	line-height:unit(@px/@x,rem);
+}
+.font-size(@px){
+	font-size:unit(@px/@x,rem);
+}
+
+.padding(@top,@right,@bottom,@left){
+	padding-top:unit(@top/@x,rem);
+	padding-bottom:unit(@bottom/@x,rem);
+	padding-left:unit(@left/@x,rem);
+	padding-right:unit(@right/@x,rem);
+}
+.padding-left(@px){
+	padding-left:unit(@px/@x,rem);
+}
+.padding-right(@px){
+	padding-right:unit(@px/@x,rem);
+}
+.padding-top(@px){
+	padding-top:unit(@px/@x,rem);
+}
+.padding-bottom(@px){
+	padding-bottom:unit(@px/@x,rem);
+}
+
+.margin(@top,@right,@bottom,@left){
+	margin-top:unit(@top/@x,rem);
+	margin-bottom:unit(@bottom/@x,rem);
+	margin-left:unit(@left/@x,rem);
+	margin-right:unit(@right/@x,rem);
+}
+.margin-left(@px){
+	margin-left:unit(@px/@x,rem);
+}
+.margin-right(@px){
+	margin-right:unit(@px/@x,rem);
+}
+.margin-top(@px){
+	margin-top:unit(@px/@x,rem);
+}
+.margin-bottom(@px){
+	margin-bottom:unit(@px/@x,rem);
+}
+
+.border(@px,@type,@col){
+	border: unit(@px/@x,rem) @type @col;
+} 
+.border-top(@px,@type,@col){
+	border-top: unit(@px/@x,rem) @type @col;
+}
+.border-bottom(@px,@type,@col){
+	border-bottom: unit(@px/@x,rem) @type @col;
+}
+.border-left(@px,@type,@col){
+	border-left:unit(@px/@x,rem) @type @col;
+}
+.border-right(@px,@type,@col){
+	border-right:unit(@px/@x,rem) @type @col;
+}
+.border-radius(@px){
+    border-radius:unit(@px/@x,rem);
+}
+
+.top(@px){
+	top: unit(@px/@x,rem);
+}
+.bottom(@px){
+	bottom: unit(@px/@x,rem);
+}
+.left(@px){
+	left: unit(@px/@x,rem);
+}
+.right(@px){
+	right: unit(@px/@x,rem);
+}
+
+.background-position(@px1,@px2){
+	background-position: unit(@px1/@x,rem) unit(@px2/@x,rem);
+}
+
+.border-radius(@px1,@px2,@px3,@px4){
+	border-radius:unit(@px1/@x,rem) unit(@px2/@x,rem) unit(@px3/@x,rem) unit(@px4/@x,rem);
+}
