@@ -9,7 +9,8 @@ export default new Vuex.Store({
 		keyword:'',
 		count:0,
 		start:true,
-		sliderShow:false
+		sliderShow:false,
+		logstate:false
 	},
 	mutations:{
 		changeKeyword(state,item){
@@ -21,8 +22,11 @@ export default new Vuex.Store({
 		changeStart(state,val1){
 			state.start=val1
 		},
-		changeSliderShow(sttate,val){
+		changeSliderShow(state,val){
 			state.sliderShow=val
+		},
+		changeLogState(state,loged){
+			state.logstate=loged
 		}
 	}
 })

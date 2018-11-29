@@ -12,7 +12,7 @@ import Tabs from '../components/My/Tabs'
 import Contribute from '../components/My/Contribute'
 import Reg from '../components/Reg/Reg'
 import Log from '../components/Log/Log'
-
+import NotFound from '../components/SearchAfter/SearchNotFound'
 Vue.use(Router)
 
 export default new Router({
@@ -47,6 +47,11 @@ export default new Router({
       		path: '',
 		      name: 'SearchList',
 		      component: SearchList
+      	},
+      	{
+      		path:'SearchNotFound',
+      		name:'NotFound',
+      		component:NotFound
       	}
       ]
     },
@@ -71,8 +76,13 @@ export default new Router({
       component: My,
       children:[
       	{path:'tabs',name:"Tabs",component:Tabs},
-      	{path:'contribute',name:"Contribute",compontent:Contribute}
+      	{path:'contribute',name:"Contribute",component:Contribute}
       ]
+   },
+   {
+      path: '/SearchList',
+      name: 'SearchList',
+      component: SearchList
    }
   ]
 })

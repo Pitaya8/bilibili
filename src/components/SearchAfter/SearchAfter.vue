@@ -24,16 +24,16 @@
 <script>
 
 import HeaderSearch from '../Commons/Header_search.vue';
-
+import SearchNotFound from '../SearchAfter/SearchNotFound.vue';
 export default{
 	name:"SearchAfter",
 	data(){
 		return {
 			list1:[
 			{title:'综合',path:`/SearchAfter/SearchList/zonghe`,name:'SearchList'},
-			{title:'番剧(0)',path:`/SearchAfter/SearchList/fanju`,name:'SearchList'},
-			{title:'UP主(87)',path:`/SearchAfter/SearchList/UP`,name:'SearchList'},
-			{title:'影视(0)',path:`/SearchAfter/SearchList/yinshi`,name:'SearchList'}
+			{title:'番剧(0)',path:`/SearchAfter/SearchNotFound`,name:'SearchNotFound'},
+			{title:'UP主(0)',path:`/SearchAfter/SearchNotFound`,name:'SearchNotFound'},
+			{title:'影视(0)',path:`/SearchAfter/SearchNotFound`,name:'SearchNotFound'}
 			],
 			list2:['默认排序','播放多','新发布','弹幕多'],
 			activeDate: 1
@@ -77,7 +77,6 @@ export default{
 		$('#input_keyword').keydown((e)=>{
 			if(e.keyCode==13){
 				this.$store.commit('changeKeyword',e.target.value);
-				console.log(this.$store.state.keyword);
 				this.refresh()
 			}
 			

@@ -3,6 +3,8 @@
 			v-infinite-scroll="loadMore"
 		  infinite-scroll-disabled="loading"
 		  infinite-scroll-distance="0"
+		  infinite-scroll-immediate-check=false
+		  infinite-scroll-listen-for-event="srcoll_event"
 		>
 		<div class="lists" v-for="(item,index) in arr" :key="index" @click="dispose($event,item.id)" :name="item.id">
 			<div class="left">
@@ -31,7 +33,7 @@
 <script>
 import Vue from 'Vue';
 import { InfiniteScroll } from 'mint-ui';
-import { Indicator } from 'mint-ui';
+import { Indicator,Toast } from 'mint-ui';
 Vue.use(InfiniteScroll);
 import {setLocalStorage,getLocalStorage} from '../../lib/localStorage.js';
 export default{
@@ -54,18 +56,22 @@ export default{
 				for(let i=0;i<response.length;i++){
 					if((response[i].title).indexOf(keywords)!=-1){
 						this.arr.push(response[i])
-						console.log(this.arr)  
 					}
 				}
 				if(this.arr.length>10){
 					this.count=5;
 					this.loading=false;
+					
+				}else if(this.arr.length>0){
+					this.count=this.arr.length;
+					Toast({
+						message:'加载完毕',
+						position:'bottom',
+						duration:1000
+					})
 				}else{
-					this.count=this.arr.length
+					this.$router.push({path:`/SearchAfter/SearchNotFound`})
 				}
-				console.log('page',page)
-				console.log('count',this.count)
-				console.log('length',this.arr.length)
 				this.arr=this.arr.slice(0,page*this.count);
 			})
 			.catch((error)=>{
@@ -73,13 +79,16 @@ export default{
 			})
 		},
 		loadMore() {
-			this.datas(this.page++)
+			this.datas(++this.page)
 		},
 		dispose(event,id){
 			//设置一个localstorage
 			this.$store.commit('changeCount');
 			setLocalStorage('use'+this.$store.state.count,id,1);
 			this.$router.push({path:`/Details`,query:{userID:id}})
+		},
+		srcoll_event(){
+			console.log('触发了')
 		}
 		
 	},
@@ -88,7 +97,6 @@ export default{
 	},
 	mounted(){
 		this.datas(this.page,this.count);
-		console.log(this.$store.state.keyword)
 	}
 }
 </script>

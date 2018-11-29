@@ -64,7 +64,10 @@
 			},
 			info(index,event){
 				this.now=index;
-//				event.currentTarget.removeAttribute('class','');
+				let len=document.querySelectorAll('.nav_hidden ul li a').length;
+				for(let i=0;i<len;i++) {
+					document.querySelectorAll('.nav_hidden ul li a')[i].setAttribute('class','');
+				}
 				event.currentTarget.setAttribute('class','active2');
 			},
 			btn_hidden(){

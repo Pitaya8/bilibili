@@ -3,16 +3,15 @@
 // getLocalStorage('键',true)//参数二表示是否需要转为对象，可为空
 
 // 设置localStorage
-function setLocalStorage(key, value, date){
-	
-	if(typeof(value)=='string'){
+function setLocalStorage(key, value){
+//	if(typeof(value)=='string'){
 		// 编码
-		var data =window.btoa(value);
-	}
-	else{
+//		var data =window.btoa(value);
+//	}
+//	else{
 		// 编码
-		var data =window.btoa(JSON.stringify(value));
-	}
+//		var data =window.btoa(JSON.stringify(value));
+//	}
 	// 过期时间
 // 	if( date ){
 // 		var dt = new Date();
@@ -20,26 +19,43 @@ function setLocalStorage(key, value, date){
 // 		str += ";expires="+dt.toGMTString();
 // 	}
 	// 设置localStorage
-	localStorage.setItem(key,data)
+	var data =value;
+	return localStorage.setItem(key,value)
 }
 
 // 获取localStorage
-function getLocalStorage(key,ifobj){
+function getLocalStorage(key){
 	var str=localStorage.getItem(key)
-	if(str){
-		var data=window.atob(str);
-		if(!ifobj){
+	if(str!=null){
+//		var data=window.atob(str);
 		return data;
-	}
-	else{
-		return JSON.parse(data);
-	}
 	}else{
-		return ''
+		return false;
 	}
+}
+
+//获取所有的localStorage
+function getAllLocalStorage(){
+	let localStorages=localStorage;
+	return localStorages;
+}
+
+//删除某个localStorage
+function deleteLocalStorage(key){
+	localStorage.removeItem(key);
+	if(getLocalStorage(key)){
+		return true;
+	}
+}
+
+//删除所有localStorage
+function delteAllLocalStorage(){
+	localStorage.clear()
 }
 
 export{
 	setLocalStorage,
-	getLocalStorage
+	getLocalStorage,
+	getAllLocalStorage,
+	delteAllLocalStorage
 }

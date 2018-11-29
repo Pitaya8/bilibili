@@ -35,6 +35,17 @@
 			return {
 				name:'头部'
 			}
+		},
+		mounted(){
+			let storage=window.localStorage;
+			let succeed_id=storage.getItem('succeed_id');
+			//console.log(succeed_id);
+			
+			//console.log(this.$store.state.logstate);//从登录页面传过来的，登录成功后状态值为true
+			if (this.$store.state.logstate==true) {
+				$('.header_icon img').attr('src','../../../static/images/headerimg/log.jpg');
+			}
+			
 		}
 	}
 	

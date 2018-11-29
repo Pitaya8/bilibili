@@ -19,6 +19,7 @@
 	import Banner from './Banner';//引入轮播图组件
 	import List from './List'//引入列表部分组件
 	
+	
 	export default{
 		name:'Home',//当前组件名字
 		components:{

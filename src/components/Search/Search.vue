@@ -1,7 +1,6 @@
 <template>
 	<div id="Search">
 		<HeaderSearch></HeaderSearch>
-		<!--<div id="SearchBody">-->
 			<p class="Search_top">大家都在搜</p>
 			<div id="search-recommendWords">
 				<ul>
@@ -11,26 +10,24 @@
 			<div id="search-history">
 				<p>历史搜索</p>
 				<ul>
-					<li>
+					<li v-for="(item,index) in locStorage" :key="index">
 						<i class="fa fa-clock-o"></i>
-						<p class="search-history-li-p"  @click="dispose($event)">毒液</p>
-					</li>
-					<li>
-						<i class="fa fa-clock-o"></i>
-						<p class="search-history-li-p"  @click="dispose($event)">毒液吗</p>
+						<p class="search-history-li-p"  @click="dispose($event)">
+							{{item}}
+						</p>
 					</li>
 					
 				</ul>
-				<span>清除历史记录</span>
+				<span @click="clearHistory">清除历史记录</span>
 			</div>
-		</div>
-		
-	<!--</div>-->
+	</div>
 </template>
 
 <script>
 import HeaderSearch from '../Commons/Header_search.vue';
-import {setLocalStorage,getLocalStorage} from '../../lib/localStorage.js';
+import {setLocalStorage,getLocalStorage,getAllLocalStorage,
+	deleteLocalStorage} from '../../lib/localStorage.js';
+import { Indicator,Toast } from 'mint-ui';
 	export default{
 		name:'Search',
 		components:{HeaderSearch},
@@ -38,21 +35,49 @@ import {setLocalStorage,getLocalStorage} from '../../lib/localStorage.js';
 			return {
 				list:['冷面作品','全明星','五五开','华农兄弟','暴躁林品如','马云'],
 				//历史搜索的数组
-				arr:[]
+				arr:[],
+				locStorage:[]
 			}
 		},
 		mounted(){
-			console.log(this.$store.state.count)
-			for(let i=0;i<=this.$store.state.count;i++){
-//				arr[]
-				console.log('use'+i)
-				console.log(getLocalStorage('use'+i))
+//			console.log(this.$store.state.count)
+//			for(let i=0;i<=this.$store.state.count;i++){
+//				
+//			}
+			let localArr=[];
+			
+			
+			for(let i=0;i<localStorage.length;i++){
+				if(localStorage.key(i)!="loglevel:webpack-dev-server"){
+					this.locStorage.push(localStorage.key(i))
+					localArr.push(localStorage.key(i))
+				}else{
+					localStorage.removeItem(i)
+					
+				}
 			}
+			if(localArr.length>6){
+				this.locStorage=localArr.slice(0,6)
+				
+			}
+			
 		},
 		methods:{
 			dispose(event){
+				//localStorage存入数据
+				localStorage.setItem(event.currentTarget.innerHTML,event.currentTarget.innerHTML);
 				this.$store.commit('changeKeyword',event.currentTarget.innerHTML)
 				this.$router.push({path:`/SearchAfter`,query:{userID:123}})
+			},
+			//清楚历史记录
+			clearHistory(){
+				localStorage.clear();
+				this.locStorage=[]
+				Toast({
+					message:'清除完毕',
+					position:'middle',
+					duration:1000
+				})
 			}
 		}
 	}

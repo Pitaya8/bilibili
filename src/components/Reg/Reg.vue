@@ -18,7 +18,7 @@
 				<!--用户名-->
 				<input type="text" class="userinfo" id="reg_usname" value="" placeholder="请设置用户名"/>
 				<!--密码-->
-				<input type="password" maxlength="14" minlength="6" class="userinfo" id="reg_uspass" value="" placeholder="密码，6-14个字符"/>
+				<input type="password" class="userinfo" id="reg_uspass" value="" placeholder="请设置密码"/>
 			</div>
 			
 			<!--按钮-->
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+	import { Toast } from 'mint-ui';
 	
 	export default{
 		name:'Reg',//当前组件名字
@@ -50,26 +51,35 @@
 		},
 		methods:{
 			agree(){
+				
 				//console.log($('#reg_uspass').val())
 				let username=$('#reg_usname').val();
 				let userpass=$('#reg_uspass').val();
 				
-				if (username=='' || userpass=='') {
-					alert("请输入用户名或者密码")
-				} else{
-					this.$axios.get('/api/register',{params:{
-				      username:$('#reg_usname').val(),
-					  userpass:$('#reg_uspass').val()
-					}})
-					.then((res)=>{
-						//console.log(res)
-						alert(res);
-						window.location.href="#/log";
-					})
-					.catch((err)=>{
-						alert(err)
-					})
+				//正则验证
+				//用户名的规则： 只能输入包含1-6位中文或英文，支持中英文混搭
+    			let reg1 = /^[\u4e00-\u9fffa-zA-Z]{1,6}$/;   
+    			//密码规则：密码由英文字母和数字组成的4-10位字符
+    			let reg2 = /^[a-zA-Z0-9]{4,10}$/;
+    			
+				if(reg1.test(username)==true && reg2.test(userpass)==true && username!='' && userpass!=''){
+					Toast('注册成功');
+					//存储用户名和密码到localStorage
+					let storage=window.localStorage;
+					storage.setItem('username',username);
+					storage.setItem('userpass',userpass);
+					return true;
+				}else if (!reg1.test(username) || username=='') {
+					Toast('用户名只能输入包含1-6位中文或英文，支持中英文混搭');
+					return false;
+				}else if(!reg2.test(userpass) || userpass==''){
+					Toast('密码只能为英文和数字组成的4-10位字符');	
+					return false;
 				}
+				
+				//删除
+				//localStorage.removeItem('username');
+				//localStorage.removeItem('userpass');
 				
 			}
 		}

@@ -104,6 +104,11 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="_afterbody">
+			<p>哔哩哔哩 沪ICP备13002172号-3</p>
+			<p>信息网络传播视听节目许可证：0910417</p>
+		</div>
 	</div>
 </template>
 
@@ -201,11 +206,12 @@ export default{
 		
 		.DetailsBody_movie{
 			video{
-				.width(375);
+				width: 100%;;
 				.height(422);
 			}
 		}
 		.open_app{
+			text-align:center;
 			input{
 				.width(700);
 				.height(72);
@@ -343,16 +349,32 @@ export default{
 						.title{
 							.font-size(30);
 							text-align:left;
+							overflow: hidden;
+								text-overflow:ellipsis;
+								white-space: nowrap;
 						}
 						.little_title{
 							.font-size(12);
 							color:#999;
 							text-align:left;
-							.margin-top(3);
+							.margin-top(10);
+							.margin-bottom(10);
 						}
 					}
 				}
 			}
+	}
+	
+	._afterbody{
+		width:100%;
+		.height(200);
+		text-align:center;
+		.margin-top(60);
+		p{
+			.font-size(25);
+			color:#999;
+			.margin-top(20);
+		}
 	}
 }
 

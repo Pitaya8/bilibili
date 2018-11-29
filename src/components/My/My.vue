@@ -6,25 +6,34 @@
 		<!--注册登录-->
 		<div class="my_reg_log">
 			<!--{{name}}-->
-			<img src="../../../static/images/img/bannerTop.png"/>
+			<img src="" class="pic" v-show="isShowpic"/>
+			<img src="../../../static/images/img/bannerTop.png" class="bac"/>
 			<router-link to="/reg" class="my_reg bt">
 				注册
 			</router-link>
-			<router-link to="/log" class="my_log bt">
-				登录
-			</router-link>
+			<a class="my_log bt">
+				<span @click="Changes">登录</span>
+			</a>
 			
 		</div>
 		
 		<!--历史记录和投稿-->
 		<div class="my_tab">
 			<ul class="tabli">
-				<router-link :to="aa" tag="li"
-					:class="index==now?'_li active':'_li'"
+				<router-link :to="item.path" tag="li"
+					active-class="active" 
+					class="_li"
 					v-for="(item,index) of tablist"
 					:key="index">
-					<span @click="change(index)">{{item}}</span>
+					<span>{{item.title}}</span>
 				</router-link >
+				
+				<!--<router-link :to="aa" tag="li"
+					:class="index==now?'_li active':'_li'" 
+					v-for="(item,index) of tablist"
+					:key="index">
+					<span>{{item}}</span>
+				</router-link >-->
 			</ul>
 		</div>
 		
@@ -36,6 +45,7 @@
 <script>
 	import Header from '../Commons/Header';//引入头部组件
 	
+	import { Toast } from 'mint-ui';
 	export default{
 		name:'My',//当前组件名字
 		components:{
@@ -43,32 +53,51 @@
 		},
 		data(){
 			return {
-				tablist:['历史记录','我的投稿'],
+				tablist:[
+					{title:'历史记录',path:'/my/tabs'},
+					{title:'我的投稿',path:'/my/contribute'}
+				],
 				now:0,
-				aa:'/my/contribute'
-				//linkActiveClass:'active'
+				isShowpic:false
 			}
 		},
 		methods:{
-			change(index){
-				this.now=index;
-				//console.log(index)
-				
-				this.$store.commit('changeStart',!this.$store.state.start);
-				this.aa=(this.$store.state.start)?'/my/tabs':'/my/contribute';
-//				console.log(aa)
-//				this.$router.push(`"${aa}"`)
+			Changes(){
+				let vals = document.querySelector('.my_log span').innerHTML;
+				//console.log(vals)
+				if (vals=='退出') {
+					Toast('已退出，请重新登录');
+					let exit=!this.$store.state.logstate;
+					this.$store.commit('changeLogState',exit);
+					//console.log(exit);
+					this.isShowpic=!this.isShowpic;
+					$('.my_reg').html('注册');
+					$('.my_log span').html('登录');
+					$('.header_icon img').attr('src','../../../static/images/headerimg/icon.png')
+				}else if(vals=='登录'){
+					window.location.href='#/log'
+				}
 			}
+			
 		},
 		created(){
-//			console.log(this.$store.state.start)
-//			if (this.$store.state.start) {
-//				
-				this.$router.replace('/my/tabs')
-//			}else{
-//				this.$router.replace('/my/contribute')
-//			}
+			this.$router.replace('/my/tabs')
+		},
+		mounted(){
+			let storage=window.localStorage;
+			let succeed_id=storage.getItem('succeed_id');
+			//console.log(succeed_id);
+			
+			//console.log(this.$store.state.logstate);//从登录页面传过来的，登录成功后状态值为true
+			if (this.$store.state.logstate==true) {
+				this.isShowpic=!this.isShowpic;
+				$('.my_reg_log .pic').attr('src','../../../static/images/headerimg/log.jpg');
+				$('.my_reg').html('设置');
+				$('.my_log span').html('退出');
+			}
+			
 		}
+		
 	}
 	
 </script>
@@ -82,7 +111,15 @@
 		width:100%;
 		.height(260);
 		position:relative;
-		img{
+		.pic{
+			position:absolute;
+			.width(135);
+			.height(100);
+			border-radius:50%;
+			.left(300);
+			.top(10);
+		}
+		.bac{
 			width:100%;
 			.height(260);
 		}

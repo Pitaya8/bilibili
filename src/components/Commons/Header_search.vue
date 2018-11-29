@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import {setLocalStorage,getLocalStorage,getAllLocalStorage,
+delteAllLocalStorage} from '../../lib/localStorage.js';
 export default{
 	name:"header_search",
 	data(){
@@ -25,10 +27,12 @@ export default{
 	methods:{
 		keyboard(event){
 			if (event.keyCode == "13") {
+				//localStorage存入数据
+				localStorage.setItem(event.currentTarget.value,event.currentTarget.value)
+				
 				this.$store.commit('changeKeyword',event.currentTarget.value);
-				this.infos()
+				this.infos();
 				this.$router.push({path:`/SearchAfter`,query:{userID:123}})
-				console.log(this.$store.state.keyword)
 			}
 		},
 		//查找数据
@@ -39,7 +43,6 @@ export default{
 				let keywords=this.$store.state.keyword;
 				for(let i=0;i<response.length;i++){
 					if((response[i].title).indexOf(keywords)!=-1){
-						console.log(response[i].id)
 					}
 				}
 			})
@@ -49,12 +52,11 @@ export default{
 		}
 	},
 	mounted(){
-		if(this.$route.path=='/Search'){
+		if(this.$route.path=='/search'){
 			$('#input_keyword').val('')
 		}else if(this.$route.path=='/SearchAfter'){
-			console.log('是agter')
+			
 		}
-		console.log(this.$store.state.keyword)
 	}
 }
 </script>
@@ -64,6 +66,7 @@ export default{
 #header_search{
 	position:fixed;
 	display:flex;
+	text-align:center;
 	width:100%;
 	.height(108);
 	background:white;
@@ -79,6 +82,7 @@ export default{
 			text-indent:1.3rem;
 		}
 		i{
+			.margin-top(10);
 			position:absolute;
 			display: inline-block;
 			.font-size(44);

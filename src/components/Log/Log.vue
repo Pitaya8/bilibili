@@ -52,6 +52,7 @@
 </template>
 
 <script>
+	import { Toast } from 'mint-ui';
 	
 	export default{
 		name:'Log',//当前组件名字
@@ -64,23 +65,34 @@
 		methods:{
 			login(){
 				//console.log($('#log_usname').val())
-				let username=$('#log_usname').val();
-				let userpass=$('#log_uspass').val();
+				let u_name=$('#log_usname').val();
+				let u_pass=$('#log_uspass').val();
 				
-				this.$axios.post('/api/login',{
-					username:$('#log_usname').val(),
-					userpass:$('#log_uspass').val()
-				})
-				.then((res)=>{
-					console.log(res)
-//					alert(res)
-//					window.location.href="#/home"
-				})
-				.catch((err)=>{
-					console.log(err)
-//					alert(err)
+				//获取localStorage
+				let storage=window.localStorage;
+				//console.log(storage.getItem('userpass'));
+				let username=storage.getItem('username');
+				//console.log(username)
+				let userpass=storage.getItem('userpass');
+				
+				//登录验证 
+				if (u_name==username && u_pass==userpass) {
+					Toast('登录成功，3秒后跳转首页');
+					storage.setItem('succeed_id',u_name);
 					
-				})
+					let timer=setInterval(()=>{
+						window.location.href='#/';
+						clearInterval(timer)
+					},3000);
+					//登录后改变状态值
+					let mylog=!this.$store.state.logstate;
+					this.$store.commit('changeLogState',mylog);
+					return true;
+				}else{
+					Toast('登录失败！用户名或密码不正确');
+					return false;
+				}
+					
 			}
 		}
 	}
